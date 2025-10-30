@@ -199,7 +199,6 @@ export default function HomePage() {
             </motion.div>
 
             {/* Image Slider */}
-            {/* Image Slider */}
             <motion.div
               className="lg:w-1/2 relative"
               initial={{ opacity: 0, x: 50 }}
