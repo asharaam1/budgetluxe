@@ -55,8 +55,8 @@ export default function HomePage() {
     {
       id: 1,
       name: "Premium Cotton T-Shirts",
-      price: "$24.99",
-      originalPrice: "$39.99",
+      price: "Rs 500",
+      originalPrice: "Rs 800",
       image: "/products/men-tshirts.png",
       discount: "35% OFF",
       rating: 4.5,
@@ -66,8 +66,8 @@ export default function HomePage() {
     {
       id: 2,
       name: "Designer Summer Dresses",
-      price: "$49.99",
-      originalPrice: "$79.99",
+      price: "Rs 2000",
+      originalPrice: "Rs 3500",
       image: "/products/women-dress.png",
       discount: "40% OFF",
       rating: 4.8,
@@ -77,8 +77,8 @@ export default function HomePage() {
     {
       id: 3,
       name: "Casual Denim Jeans",
-      price: "$39.99",
-      originalPrice: "$59.99",
+      price: "Rs 1200",
+      originalPrice: "1800",
       image: "/products/jeans.png",
       discount: "30% OFF",
       rating: 4.3,
@@ -88,8 +88,8 @@ export default function HomePage() {
     {
       id: 4,
       name: "Elegant Kurti Set",
-      price: "$34.99",
-      originalPrice: "$49.99",
+      price: "Rs 4000",
+      originalPrice: "5250",
       image: "/products/kurti-set.png",
       discount: "25% OFF",
       rating: 4.7,
@@ -103,7 +103,7 @@ export default function HomePage() {
     {
       icon: <FiTruck className="text-2xl" />,
       title: "Free Shipping",
-      desc: "On orders over $49",
+      desc: "On orders over Rs.2000",
     },
     {
       icon: <FiShield className="text-2xl" />,

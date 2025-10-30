@@ -15,13 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-
   title: "Budget Luxe",
   description: "Luxury marketplace for buying and selling high-end products",
-icons: {
-    icon: "/logo-2.png", // or /logo.png
+  icons: {
+    icon: "/logo-2.png",
   },
-
 };
 
 export default function RootLayout({

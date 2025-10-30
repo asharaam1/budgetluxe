@@ -7,11 +7,7 @@ const Header = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo + Brand */}
           <div className="flex items-center space-x-3">
-            <img
-              src="/logo-2.png" // Replace with your actual logo path
-              alt="Budget Luxe Logo"
-              className="h-8 w-8"
-            />
+            <img src="/logo-2.png" alt="Budget Luxe Logo" className="h-8 w-8" />
             <span className="text-xl font-bold tracking-wide text-[#C8A46F]">
               Budget Luxe
             </span>{" "}
