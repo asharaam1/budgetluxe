@@ -8,6 +8,7 @@ import {
   FiHeadphones,
   FiArrowRight,
   FiStar,
+  FiHeart,
 } from "react-icons/fi";
 
 export default function HomePage() {
@@ -21,99 +22,103 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Categories data
+  // Garments Categories
   const categories = [
     {
-      name: "Electronics",
-      icon: "📱",
-      count: "120+ Products",
+      name: "Men's Fashion",
+      icon: "👔",
+      count: "200+ Products",
       color: "from-blue-500 to-cyan-500",
     },
     {
-      name: "Fashion",
+      name: "Women's Wear",
       icon: "👗",
-      count: "300+ Products",
+      count: "350+ Products",
       color: "from-pink-500 to-rose-500",
     },
     {
-      name: "Home & Kitchen",
-      icon: "🏠",
-      count: "80+ Products",
-      color: "from-amber-500 to-orange-500",
+      name: "Kids Collection",
+      icon: "👶",
+      count: "150+ Products",
+      color: "from-green-500 to-emerald-500",
     },
     {
-      name: "Beauty",
-      icon: "💄",
-      count: "150+ Products",
+      name: "Accessories",
+      icon: "👜",
+      count: "120+ Products",
       color: "from-purple-500 to-indigo-500",
     },
   ];
 
-  // Featured products
+  // Featured Garments Products
   const featuredProducts = [
     {
       id: 1,
-      name: "Wireless Headphones",
-      price: "$99.99",
-      originalPrice: "$129.99",
-      image: "/products/wirels-headPh.png",
-      discount: "20% OFF",
+      name: "Premium Cotton T-Shirts",
+      price: "$24.99",
+      originalPrice: "$39.99",
+      image: "/products/men-tshirts.png",
+      discount: "35% OFF",
       rating: 4.5,
       reviews: 128,
+      category: "Men",
     },
     {
       id: 2,
-      name: "Smart Watch Series 5",
-      price: "$199.99",
-      originalPrice: "$249.99",
-      image: "/products/watch.png",
-      discount: "15% OFF",
+      name: "Designer Summer Dresses",
+      price: "$49.99",
+      originalPrice: "$79.99",
+      image: "/products/women-dress.png",
+      discount: "40% OFF",
       rating: 4.8,
       reviews: 89,
+      category: "Women",
     },
     {
       id: 3,
-      name: "Premium Laptop Bag",
-      price: "$49.99",
-      originalPrice: "$69.99",
-      image: "/products/lap-bag.png",
-      discount: "10% OFF",
+      name: "Casual Denim Jeans",
+      price: "$39.99",
+      originalPrice: "$59.99",
+      image: "/products/jeans.png",
+      discount: "30% OFF",
       rating: 4.3,
       reviews: 256,
+      category: "Men",
     },
     {
       id: 4,
-      name: "DSLR Camera",
-      price: "$599.99",
-      originalPrice: "$799.99",
-      image: "/products/dslr-cam.png",
+      name: "Elegant Kurti Set",
+      price: "$34.99",
+      originalPrice: "$49.99",
+      image: "/products/kurti-set.png",
       discount: "25% OFF",
       rating: 4.7,
-      reviews: 67,
+      reviews: 167,
+      category: "Women",
     },
   ];
 
-  // Features
+  // Features for garments store
   const features = [
     {
       icon: <FiTruck className="text-2xl" />,
       title: "Free Shipping",
-      desc: "On orders over $99",
+      desc: "On orders over $49",
     },
     {
       icon: <FiShield className="text-2xl" />,
-      title: "Secure Payment",
-      desc: "100% secure payment",
+      title: "Quality Assurance",
+      desc: "Premium quality fabrics",
     },
     {
       icon: <FiHeadphones className="text-2xl" />,
-      title: "24/7 Support",
-      desc: "Dedicated support",
+      title: "Style Support",
+      desc: "Fashion advice 24/7",
     },
     {
       icon: <FiShoppingBag className="text-2xl" />,
       title: "Easy Returns",
-      desc: "30-day return policy",
+      desc: "15-day return policy",
     },
   ];
 
@@ -157,7 +162,7 @@ export default function HomePage() {
                 transition={{ delay: 0.2, duration: 0.8 }}
               >
                 <span className="bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-4 inline-block">
-                  New Collection 2024
+                  Luxury Within Reach
                 </span>
               </motion.div>
 
@@ -167,8 +172,8 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
               >
-                Elevate Your
-                <span className="text-amber-600 block">Style Game</span>
+                BUDGET
+                <span className="text-amber-600 block">LUXE</span>
               </motion.h1>
 
               <motion.p
@@ -177,8 +182,9 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
               >
-                Discover premium quality products that blend style with
-                functionality. Exclusive launch discounts up to 50% off.
+                Where luxury meets affordability. Discover premium quality
+                garments at prices that won't break the bank. Elevate your style
+                without compromising your budget.
               </motion.p>
 
               <motion.div
@@ -189,16 +195,37 @@ export default function HomePage() {
               >
                 <button className="bg-black hover:bg-gray-800 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
                   <FiShoppingBag />
-                  Shop Now
+                  Shop Collection
                 </button>
                 <button className="border-2 border-gray-800 hover:bg-gray-800 hover:text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
-                  Explore Collection
+                  New Arrivals
                   <FiArrowRight />
                 </button>
               </motion.div>
+
+              {/* Stats */}
+              <motion.div
+                className="flex gap-8 mt-12"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 0.8 }}
+              >
+                <div>
+                  <div className="text-2xl font-bold text-gray-900">5000+</div>
+                  <div className="text-gray-600">Happy Customers</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-gray-900">1000+</div>
+                  <div className="text-gray-600">Fashion Items</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-gray-900">50+</div>
+                  <div className="text-gray-600">Brands</div>
+                </div>
+              </motion.div>
             </motion.div>
 
-            {/* Image Slider */}
+            {/* Image Slider for Garments */}
             <motion.div
               className="lg:w-1/2 relative"
               initial={{ opacity: 0, x: 50 }}
@@ -206,35 +233,33 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.5 }}
             >
               <div className="relative h-96 lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl">
-                {/* Image 1 */}
-                <motion.img
-                  src="/products/lap-bag.png"
-                  alt="Laptop Bag"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: currentSlide === 0 ? 1 : 0 }}
-                  transition={{ duration: 0.8 }}
-                />
-
-                {/* Image 2 */}
-                <motion.img
-                  src="/products/wirels-headPh.png"
-                  alt="Wireless Headphones"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: currentSlide === 1 ? 1 : 0 }}
-                  transition={{ duration: 0.8 }}
-                />
-
-                {/* Image 3 */}
-                <motion.img
-                  src="/products/watch.png"
-                  alt="Smart Watch"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: currentSlide === 2 ? 1 : 0 }}
-                  transition={{ duration: 0.8 }}
-                />
+                {[
+                  {
+                    src: "/products/men-collection.png",
+                    alt: "Men's Collection",
+                  },
+                  {
+                    src: "/products/women-collection.png",
+                    alt: "Women's Collection",
+                  },
+                  {
+                    src: "/products/kids-collection.png",
+                    alt: "Kids Collection",
+                  },
+                ].map((image, index) => (
+                  <motion.img
+                    key={index}
+                    src={image.src}
+                    alt={image.alt}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{
+                      opacity: currentSlide === index ? 1 : 0,
+                      scale: currentSlide === index ? 1 : 1.1,
+                    }}
+                    transition={{ duration: 0.8 }}
+                  />
+                ))}
 
                 {/* Slide Indicators */}
                 <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
@@ -298,7 +323,7 @@ export default function HomePage() {
               Shop by Category
             </h2>
             <p className="text-gray-600 text-lg">
-              Explore our wide range of product categories
+              Discover fashion for every occasion and everyone
             </p>
           </motion.div>
 
@@ -347,9 +372,11 @@ export default function HomePage() {
           >
             <div>
               <h2 className="text-4xl font-bold text-gray-900 mb-2">
-                Featured Products
+                Trending Now
               </h2>
-              <p className="text-gray-600">Handpicked items just for you</p>
+              <p className="text-gray-600">
+                Most loved pieces from our collection
+              </p>
             </div>
             <button className="bg-black hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
               View All
@@ -384,8 +411,11 @@ export default function HomePage() {
                     {product.discount}
                   </div>
                   <div className="absolute top-4 left-4 bg-black text-white px-3 py-1 rounded-full text-sm">
-                    Featured
+                    {product.category}
                   </div>
+                  <button className="absolute top-4 right-12 bg-white/90 hover:bg-white text-gray-900 p-2 rounded-full transition-colors duration-300">
+                    <FiHeart />
+                  </button>
                 </div>
 
                 <div className="p-6">
@@ -444,10 +474,12 @@ export default function HomePage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl font-bold mb-4">Join Our Community</h2>
+            <h2 className="text-4xl font-bold mb-4">
+              Join the BUDGET LUXE Family
+            </h2>
             <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-              Subscribe to our newsletter and get exclusive deals, style tips,
-              and early access to new collections.
+              Get exclusive access to new collections, special discounts, and
+              style tips delivered straight to your inbox.
             </p>
             <motion.div
               className="max-w-md mx-auto flex bg-white rounded-xl overflow-hidden shadow-2xl"
@@ -469,21 +501,8 @@ export default function HomePage() {
 
       {/* Custom styles for cream color palette */}
       <style jsx global>{`
-        :root {
-          --color-cream-50: #fef7ee;
-          --color-cream-100: #fef3c7;
-          --color-cream-200: #fde68a;
-          --color-cream-300: #fcd34d;
-          --color-cream-400: #fbbf24;
-          --color-cream-500: #f59e0b;
-          --color-cream-600: #d97706;
-          --color-cream-700: #b45309;
-          --color-cream-800: #92400e;
-          --color-cream-900: #78350f;
-        }
-
         .bg-cream-50 {
-          background-color: var(--color-cream-50);
+          background-color: #fef7ee;
         }
 
         .bg-amber-50 {
