@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Budget Luxe
 
-## Getting Started
+## Project Summary
 
-First, run the development server:
+Budget Luxe is a Next.js application built for a luxury marketplace where users can buy and sell high-end products. The app includes user authentication via Firebase, product management with Firestore, image uploads to Cloudinary, admin approval workflows, and WhatsApp-based ordering for a seamless shopping experience.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Node.js (version 18 or higher)
+- A Firebase project with Firestore enabled
+- A Cloudinary account for image storage and uploads
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Quick Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd budgetluxe
+   ```
 
-## Learn More
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. Set up environment variables:
+   - Copy `.env.local.template` to `.env.local`
+   - Fill in your actual Firebase and Cloudinary credentials
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Deploy Firestore security rules:
+   - Open Firebase Console > Firestore > Rules
+   - Replace the default rules with the content from `firestore.rules`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. Seed sample data:
+   - Use the Firebase Console or Admin SDK to add the sample products JSON to the 'products' collection
+   - Optionally, create an admin user and set their role in the 'users' collection
 
-## Deploy on Vercel
+## Commands
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Start development server: `npm run dev`
+- Build for production: `npm run build`
+- Start production server: `npm start`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment on Vercel
+
+1. Connect your GitHub repository to Vercel.
+2. In the Vercel dashboard, add the following environment variables:
+   - NEXT_PUBLIC_FIREBASE_API_KEY
+   - NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+   - NEXT_PUBLIC_FIREBASE_PROJECT_ID
+   - NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+   - NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+   - NEXT_PUBLIC_FIREBASE_APP_ID
+   - CLOUDINARY_CLOUD_NAME
+   - CLOUDINARY_API_KEY
+   - CLOUDINARY_API_SECRET
+3. Deploy the application.
+
+## Features
+
+- User authentication (sign up, login, logout)
+- Product creation and listing
+- Image upload and management
+- Admin product approval
+- Product browsing and details
+- WhatsApp ordering integration
+- Responsive design with Tailwind CSS
+- Favorites management via localStorage
