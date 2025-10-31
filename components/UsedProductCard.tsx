@@ -1,15 +1,21 @@
-// components/ProductCard.tsx
+// components/UsedProductCard.tsx
 "use client";
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
-import { FiHeart, FiShoppingCart, FiStar } from "react-icons/fi";
+import {
+  FiHeart,
+  FiShoppingCart,
+  FiStar,
+  FiShield,
+  FiClock,
+} from "react-icons/fi";
 import { Product } from "../types";
 
-interface ProductCardProps {
+interface UsedProductCardProps {
   product: Product;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function UsedProductCard({ product }: UsedProductCardProps) {
   const [selectedSize, setSelectedSize] = useState<string>("M");
   const [showSizeModal, setShowSizeModal] = useState<boolean>(false);
   const { addToCart } = useCart();
@@ -22,28 +28,28 @@ export default function ProductCard({ product }: ProductCardProps) {
     }
   };
 
-  const handleSizeSelect = (size: string): void => {
-    addToCart(product, size, 1);
-    setShowSizeModal(false);
+  const getConditionDetails = (condition: string) => {
+    const details = {
+      new: {
+        text: "Brand New",
+        color: "bg-green-100 text-green-800",
+        desc: "Never used with tags",
+      },
+      "used-good": {
+        text: "Used - Good",
+        color: "bg-blue-100 text-blue-800",
+        desc: "Lightly used, excellent condition",
+      },
+      "used-fair": {
+        text: "Used - Fair",
+        color: "bg-yellow-100 text-yellow-800",
+        desc: "Visible signs of wear but functional",
+      },
+    };
+    return details[condition as keyof typeof details] || details["used-good"];
   };
 
-  const getConditionText = (condition: string): string => {
-    const conditions: { [key: string]: string } = {
-      new: "Brand New",
-      "used-good": "Used - Good",
-      "used-fair": "Used - Fair",
-    };
-    return conditions[condition] || condition;
-  };
-
-  const getConditionColor = (condition: string): string => {
-    const colors: { [key: string]: string } = {
-      new: "bg-green-100 text-green-800",
-      "used-good": "bg-blue-100 text-blue-800",
-      "used-fair": "bg-yellow-100 text-yellow-800",
-    };
-    return colors[condition] || "bg-gray-100 text-gray-800";
-  };
+  const conditionInfo = getConditionDetails(product.condition);
 
   const availableSizes = product.sizes
     ? Object.keys(product.sizes).filter((size) => {
@@ -54,10 +60,18 @@ export default function ProductCard({ product }: ProductCardProps) {
       })
     : [];
 
+  // Calculate savings for used items
+  const savings = product.originalPrice
+    ? product.originalPrice - product.price
+    : 0;
+  const savingsPercentage = product.originalPrice
+    ? Math.round((savings / product.originalPrice) * 100)
+    : 0;
+
   return (
     <>
-      <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group">
-        {/* Product Image */}
+      <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group border-2 border-gray-100">
+        {/* Product Image with Overlays */}
         <div className="relative overflow-hidden">
           <img
             src={product.images[0] || "/placeholder-product.jpg"}
@@ -67,22 +81,23 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Condition Badge */}
           <div
-            className={`absolute top-3 left-3 px-2 py-1 rounded-full text-xs font-medium ${getConditionColor(
-              product.condition
-            )}`}
+            className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-medium ${conditionInfo.color}`}
           >
-            {getConditionText(product.condition)}
+            {conditionInfo.text}
           </div>
 
-          {/* Discount Badge */}
-          {product.originalPrice && product.originalPrice > product.price && (
-            <div className="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-              {Math.round(
-                ((product.originalPrice - product.price) /
-                  product.originalPrice) *
-                  100
-              )}
-              % OFF
+          {/* Savings Badge */}
+          {savings > 0 && (
+            <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+              Save {savingsPercentage}%
+            </div>
+          )}
+
+          {/* Authenticity Badge for Premium Brands */}
+          {["Gucci", "Nike", "Adidas", "Puma"].includes(product.brand) && (
+            <div className="absolute bottom-3 left-3 bg-black text-white px-2 py-1 rounded text-xs flex items-center gap-1">
+              <FiShield className="w-3 h-3" />
+              Authentic
             </div>
           )}
 
@@ -100,23 +115,41 @@ export default function ProductCard({ product }: ProductCardProps) {
             <h3 className="font-semibold text-gray-900 line-clamp-2 flex-1">
               {product.name}
             </h3>
-            <span className="text-lg font-bold text-gray-900 ml-2">
-              ₹{product.price}
-            </span>
+            <div className="text-right">
+              <span className="text-lg font-bold text-gray-900 block">
+                ₹{product.price}
+              </span>
+              {product.originalPrice && (
+                <span className="text-sm text-gray-500 line-through">
+                  ₹{product.originalPrice}
+                </span>
+              )}
+            </div>
           </div>
 
-          {product.originalPrice && product.originalPrice > product.price && (
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-sm text-gray-500 line-through">
-                ₹{product.originalPrice}
-              </span>
-              <span className="text-sm text-red-600 font-medium">
-                Save ₹{product.originalPrice - product.price}
-              </span>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-sm font-medium text-gray-700 bg-gray-100 px-2 py-1 rounded">
+              {product.brand}
+            </span>
+            <div className="flex items-center gap-1 text-xs text-gray-500">
+              <FiClock className="w-3 h-3" />
+              <span>6+ months used</span>
+            </div>
+          </div>
+
+          {/* Condition Description */}
+          <div className="mb-3">
+            <p className="text-xs text-gray-600">{conditionInfo.desc}</p>
+          </div>
+
+          {/* Savings Information */}
+          {savings > 0 && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-2 mb-3">
+              <p className="text-xs text-green-800 font-medium">
+                You save ₹{savings} compared to new
+              </p>
             </div>
           )}
-
-          <p className="text-sm text-gray-600 mb-3">{product.brand}</p>
 
           {/* Rating */}
           <div className="flex items-center gap-2 mb-4">
@@ -139,11 +172,11 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Available Sizes */}
           {availableSizes.length > 0 && (
-            <div className="flex gap-1 mb-4">
+            <div className="flex gap-1 mb-4 flex-wrap">
               {availableSizes.map((size) => (
                 <span
                   key={size}
-                  className="text-xs px-2 py-1 border border-gray-300 rounded"
+                  className="text-xs px-2 py-1 border border-gray-300 rounded bg-white"
                 >
                   {size}
                 </span>
@@ -172,7 +205,10 @@ export default function ProductCard({ product }: ProductCardProps) {
               {availableSizes.map((size) => (
                 <button
                   key={size}
-                  onClick={() => handleSizeSelect(size)}
+                  onClick={() => {
+                    addToCart(product, size, 1);
+                    setShowSizeModal(false);
+                  }}
                   className="border border-gray-300 py-2 rounded hover:border-gray-900 transition-colors"
                 >
                   {size}

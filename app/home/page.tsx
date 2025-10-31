@@ -413,7 +413,7 @@ export default function HomePage() {
                   <div className="absolute top-4 left-4 bg-black text-white px-3 py-1 rounded-full text-sm">
                     {product.category}
                   </div>
-                  <button className="absolute top-4 right-12 bg-white/90 hover:bg-white text-gray-900 p-2 rounded-full transition-colors duration-300">
+                  <button className="absolute bottom-2 right-6 bg-white/90 hover:bg-white text-gray-900 p-2 rounded-full transition-colors duration-300">
                     <FiHeart />
                   </button>
                 </div>
