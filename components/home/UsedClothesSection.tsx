@@ -2,7 +2,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { collection, getDocs, query, where, limit } from 'firebase/firestore';
-import { db } from '../../app/firebase/config';
+import { db } from '../../lib/config';
 import { Product } from '../../types';
 import UsedProductCard from '../UsedProductCard';
 import Link from 'next/link';

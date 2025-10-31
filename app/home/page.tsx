@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { collection, getDocs, query, where, limit } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { db } from "../../lib/config";
 import { Product } from "../../types";
 import { useCart } from "../../context/CartContext";
 import Link from "next/link";

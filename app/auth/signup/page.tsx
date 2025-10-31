@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "../../../hooks/useAuth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../firebase/config";
+import { db } from "../../../lib/config";
 import { FiMail, FiLock, FiUser, FiArrowLeft } from "react-icons/fi";
 
 const SignupPage = () => {

@@ -2,7 +2,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { db } from "../../lib/config";
 import ProductCard from "../../components/ProductCard";
 import { FiSearch, FiFilter } from "react-icons/fi";
 import { Product, Filters } from "../../types";

@@ -1,6 +1,6 @@
 // lib/sampleData.ts
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../app/firebase/config';
+import { db } from './config';
 
 export const sampleProducts = [
   {
