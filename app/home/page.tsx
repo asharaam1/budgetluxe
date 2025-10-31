@@ -1,6 +1,12 @@
+// app/home/page.tsx
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { collection, getDocs, query, where, limit } from "firebase/firestore";
+import { db } from "../firebase/config";
+import { Product } from "../../types";
+import { useCart } from "../../context/CartContext";
+import Link from "next/link";
 import {
   FiShoppingBag,
   FiTruck,
@@ -13,6 +19,9 @@ import {
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,6 +31,35 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    fetchFeaturedProducts();
+  }, []);
+
+  const fetchFeaturedProducts = async () => {
+    try {
+      const productsRef = collection(db, "products");
+      const q = query(
+        productsRef, 
+        where("status", "==", "active"),
+        limit(8)
+      );
+      
+      const querySnapshot = await getDocs(q);
+      const productsData: Product[] = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      } as Product));
+      
+      setFeaturedProducts(productsData);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      // Fallback to sample data if Firebase fails
+      setFeaturedProducts(featuredProductsSample);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Garments Categories
   const categories = [
     {
@@ -29,72 +67,28 @@ export default function HomePage() {
       icon: "👔",
       count: "200+ Products",
       color: "from-blue-500 to-cyan-500",
+      href: "/products?category=men"
     },
     {
       name: "Women's Wear",
-      icon: "👗",
+      icon: "👗", 
       count: "350+ Products",
       color: "from-pink-500 to-rose-500",
+      href: "/products?category=women"
     },
     {
       name: "Kids Collection",
       icon: "👶",
       count: "150+ Products",
       color: "from-green-500 to-emerald-500",
+      href: "/products?category=kids"
     },
     {
-      name: "Accessories",
-      icon: "👜",
-      count: "120+ Products",
+      name: "Used Clothes",
+      icon: "🔄",
+      count: "100+ Products", 
       color: "from-purple-500 to-indigo-500",
-    },
-  ];
-
-  // Featured Garments Products
-  const featuredProducts = [
-    {
-      id: 1,
-      name: "Premium Cotton T-Shirts",
-      price: "Rs 500",
-      originalPrice: "Rs 800",
-      image: "/products/men-tshirts.png",
-      discount: "35% OFF",
-      rating: 4.5,
-      reviews: 128,
-      category: "Men",
-    },
-    {
-      id: 2,
-      name: "Designer Summer Dresses",
-      price: "Rs 2000",
-      originalPrice: "Rs 3500",
-      image: "/products/women-dress.png",
-      discount: "40% OFF",
-      rating: 4.8,
-      reviews: 89,
-      category: "Women",
-    },
-    {
-      id: 3,
-      name: "Casual Denim Jeans",
-      price: "Rs 1200",
-      originalPrice: "1800",
-      image: "/products/jeans.png",
-      discount: "30% OFF",
-      rating: 4.3,
-      reviews: 256,
-      category: "Men",
-    },
-    {
-      id: 4,
-      name: "Elegant Kurti Set",
-      price: "Rs 4000",
-      originalPrice: "5250",
-      image: "/products/kurti-set.png",
-      discount: "25% OFF",
-      rating: 4.7,
-      reviews: 167,
-      category: "Women",
+      href: "/products?category=used"
     },
   ];
 
@@ -112,13 +106,85 @@ export default function HomePage() {
     },
     {
       icon: <FiHeadphones className="text-2xl" />,
-      title: "Style Support",
+      title: "Style Support", 
       desc: "Fashion advice 24/7",
     },
     {
       icon: <FiShoppingBag className="text-2xl" />,
       title: "Easy Returns",
       desc: "15-day return policy",
+    },
+  ];
+
+  // Fallback sample data
+  const featuredProductsSample: Product[] = [
+    {
+      id: "1",
+      name: "Premium Cotton T-Shirts",
+      description: "High-quality cotton t-shirts",
+      price: 500,
+      originalPrice: 800,
+      images: ["/products/men-tshirts.png"],
+      category: "men",
+      brand: "Premium Brand",
+      condition: "new",
+      sizes: { S: 5, M: 8, L: 6, XL: 3 },
+      tags: ["cotton", "casual"],
+      status: "active",
+      rating: 4.5,
+      reviewCount: 128,
+      createdAt: new Date()
+    },
+    {
+      id: "2",
+      name: "Designer Summer Dresses", 
+      description: "Beautiful summer dresses",
+      price: 2000,
+      originalPrice: 3500,
+      images: ["/products/women-dress.png"],
+      category: "women",
+      brand: "Fashion Co.",
+      condition: "new", 
+      sizes: { S: 4, M: 7, L: 5 },
+      tags: ["dress", "summer"],
+      status: "active",
+      rating: 4.8,
+      reviewCount: 89,
+      createdAt: new Date()
+    },
+    {
+      id: "3",
+      name: "Casual Denim Jeans",
+      description: "Comfortable denim jeans",
+      price: 1200, 
+      originalPrice: 1800,
+      images: ["/products/jeans.png"],
+      category: "men",
+      brand: "Denim House",
+      condition: "new",
+      sizes: { S: 3, M: 6, L: 4, XL: 2 },
+      tags: ["jeans", "denim"],
+      status: "active",
+      rating: 4.3,
+      reviewCount: 256,
+      createdAt: new Date()
+    },
+    {
+      id: "4",
+      name: "Elegant Kurti Set",
+      description: "Traditional kurti set",
+      price: 4000,
+      originalPrice: 5250, 
+      images: ["/products/kurti-set.png"],
+      category: "women",
+      brand: "Ethnic Wear",
+      condition: "new",
+      sizes: { S: 2, M: 5, L: 3 },
+      tags: ["kurti", "traditional"],
+      status: "active",
+      rating: 4.7,
+      reviewCount: 167,
+      createdAt: new Date()
     },
   ];
 
@@ -140,6 +206,10 @@ export default function HomePage() {
       y: 0,
       opacity: 1,
     },
+  };
+
+  const handleAddToCart = (product: Product) => {
+    addToCart(product, "M", 1);
   };
 
   return (
@@ -193,14 +263,18 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.8 }}
               >
-                <button className="bg-black hover:bg-gray-800 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-                  <FiShoppingBag />
-                  Shop Collection
-                </button>
-                <button className="border-2 border-gray-800 hover:bg-gray-800 hover:text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
-                  New Arrivals
-                  <FiArrowRight />
-                </button>
+                <Link href="/products">
+                  <button className="bg-black hover:bg-gray-800 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                    <FiShoppingBag />
+                    Shop Collection
+                  </button>
+                </Link>
+                <Link href="/products?category=used">
+                  <button className="border-2 border-gray-800 hover:bg-gray-800 hover:text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+                    Used Clothes
+                    <FiArrowRight />
+                  </button>
+                </Link>
               </motion.div>
 
               {/* Stats */}
@@ -239,7 +313,7 @@ export default function HomePage() {
                     alt: "Men's Collection",
                   },
                   {
-                    src: "/products/women-collection.png",
+                    src: "/products/women-collection.png", 
                     alt: "Women's Collection",
                   },
                   {
@@ -342,18 +416,20 @@ export default function HomePage() {
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                <div
-                  className={`bg-gradient-to-br ${category.color} rounded-2xl p-8 text-white text-center relative overflow-hidden h-48 flex flex-col justify-center items-center`}
-                >
-                  <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                    {category.icon}
-                  </div>
-                  <h3 className="font-bold text-xl mb-2">{category.name}</h3>
-                  <p className="text-white/80">{category.count}</p>
+                <Link href={category.href}>
+                  <div
+                    className={`bg-gradient-to-br ${category.color} rounded-2xl p-8 text-white text-center relative overflow-hidden h-48 flex flex-col justify-center items-center`}
+                  >
+                    <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                      {category.icon}
+                    </div>
+                    <h3 className="font-bold text-xl mb-2">{category.name}</h3>
+                    <p className="text-white/80">{category.count}</p>
 
-                  {/* Hover effect overlay */}
-                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
+                    {/* Hover effect overlay */}
+                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </motion.div>
@@ -378,90 +454,113 @@ export default function HomePage() {
                 Most loved pieces from our collection
               </p>
             </div>
-            <button className="bg-black hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-              View All
-              <FiArrowRight />
-            </button>
+            <Link href="/products">
+              <button className="bg-black hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+                View All
+                <FiArrowRight />
+              </button>
+            </Link>
           </motion.div>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {featuredProducts.map((product) => (
-              <motion.div
-                key={product.id}
-                className="bg-cream-50 rounded-2xl overflow-hidden group cursor-pointer"
-                variants={itemVariants}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="relative overflow-hidden">
-                  <motion.img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-60 object-cover"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                    {product.discount}
-                  </div>
-                  <div className="absolute top-4 left-4 bg-black text-white px-3 py-1 rounded-full text-sm">
-                    {product.category}
-                  </div>
-                  <button className="absolute bottom-2 right-6 bg-white/90 hover:bg-white text-gray-900 p-2 rounded-full transition-colors duration-300">
-                    <FiHeart />
-                  </button>
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[...Array(4)].map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="bg-gray-200 h-60 rounded-2xl mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
                 </div>
-
-                <div className="p-6">
-                  <h3 className="font-semibold text-lg mb-2 text-gray-900">
-                    {product.name}
-                  </h3>
-
-                  {/* Rating */}
-                  <div className="flex items-center gap-1 mb-3">
-                    <div className="flex text-amber-500">
-                      {[...Array(5)].map((_, i) => (
-                        <FiStar
-                          key={i}
-                          className={
-                            i < Math.floor(product.rating) ? "fill-current" : ""
-                          }
-                        />
-                      ))}
+              ))}
+            </div>
+          ) : (
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              {featuredProducts.map((product) => (
+                <motion.div
+                  key={product.id}
+                  className="bg-cream-50 rounded-2xl overflow-hidden group cursor-pointer"
+                  variants={itemVariants}
+                  whileHover={{ y: -5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Link href={`/products/${product.id}`}>
+                    <div className="relative overflow-hidden">
+                      <motion.img
+                        src={product.images?.[0] || "/placeholder-product.jpg"}
+                        alt={product.name}
+                        className="w-full h-60 object-cover"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                      {product.originalPrice && product.originalPrice > product.price && (
+                        <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                          {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                        </div>
+                      )}
+                      <div className="absolute top-4 left-4 bg-black text-white px-3 py-1 rounded-full text-sm">
+                        {product.category}
+                      </div>
+                      <button className="absolute bottom-4 right-4 bg-white/90 hover:bg-white text-gray-900 p-2 rounded-full transition-colors duration-300">
+                        <FiHeart />
+                      </button>
                     </div>
-                    <span className="text-gray-600 text-sm">
-                      ({product.reviews})
-                    </span>
-                  </div>
+                  </Link>
 
-                  {/* Price */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl font-bold text-gray-900">
-                        {product.price}
-                      </span>
-                      <span className="text-gray-500 line-through text-sm">
-                        {product.originalPrice}
+                  <div className="p-6">
+                    <Link href={`/products/${product.id}`}>
+                      <h3 className="font-semibold text-lg mb-2 text-gray-900 hover:text-amber-600 transition-colors">
+                        {product.name}
+                      </h3>
+                    </Link>
+
+                    {/* Rating */}
+                    <div className="flex items-center gap-1 mb-3">
+                      <div className="flex text-amber-500">
+                        {[...Array(5)].map((_, i) => (
+                          <FiStar
+                            key={i}
+                            className={
+                              i < Math.floor(product.rating) ? "fill-current" : ""
+                            }
+                          />
+                        ))}
+                      </div>
+                      <span className="text-gray-600 text-sm">
+                        ({product.reviewCount})
                       </span>
                     </div>
-                    <motion.button
-                      className="bg-black hover:bg-gray-800 text-white p-3 rounded-xl transition-colors duration-300"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <FiShoppingBag />
-                    </motion.button>
+
+                    {/* Price */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl font-bold text-gray-900">
+                          ₹{product.price}
+                        </span>
+                        {product.originalPrice && product.originalPrice > product.price && (
+                          <span className="text-gray-500 line-through text-sm">
+                            ₹{product.originalPrice}
+                          </span>
+                        )}
+                      </div>
+                      <motion.button
+                        onClick={() => handleAddToCart(product)}
+                        className="bg-black hover:bg-gray-800 text-white p-3 rounded-xl transition-colors duration-300"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <FiShoppingBag />
+                      </motion.button>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </div>
       </section>
 

@@ -10,10 +10,20 @@ import {
   FiMenu,
 } from "react-icons/fi";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Header() {
   const { getCartItemsCount } = useCart();
+  const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   return (
     <header className="bg-gray-900 text-white shadow-lg sticky top-0 z-50">
@@ -65,13 +75,54 @@ export default function Header() {
               )}
             </Link>
 
-            {/* User Account */}
-            <Link
-              href="/auth/login"
-              className="p-2 hover:bg-gray-800 rounded-lg transition"
-            >
-              <FiUser className="text-xl" />
-            </Link>
+            {/* User Account - Updated */}
+            <div className="relative group">
+              <button className="p-2 hover:bg-gray-800 rounded-lg transition">
+                <FiUser className="text-xl" />
+              </button>
+              <div className="absolute right-0 w-48 bg-white text-gray-900 rounded-lg shadow-xl p-4 hidden group-hover:block z-50">
+                {user ? (
+                  <>
+                    <p className="text-sm text-gray-600 mb-2">
+                      Hello, {user.displayName}
+                    </p>
+                    <Link
+                      href="/profile"
+                      className="block py-2 hover:text-[#C8A46F] transition"
+                    >
+                      My Profile
+                    </Link>
+                    <Link
+                      href="/orders"
+                      className="block py-2 hover:text-[#C8A46F] transition"
+                    >
+                      My Orders
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left py-2 hover:text-[#C8A46F] transition text-red-600"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/auth/login"
+                      className="block py-2 hover:text-[#C8A46F] transition"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      href="/auth/signup"
+                      className="block py-2 hover:text-[#C8A46F] transition"
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
 
             {/* Mobile Menu Button */}
             <button
