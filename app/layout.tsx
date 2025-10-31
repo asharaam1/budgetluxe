@@ -13,6 +13,11 @@ export const metadata: Metadata = {
   title: "BUDGET LUXE - Premium Fashion at Affordable Prices",
   description:
     "Discover luxury garments and used branded clothes at budget prices",
+    icons: {
+      icon: "/logo-2.png",
+      shortcut: "/logo-2.png",
+      apple: "/logo-2.png",
+    },
 };
 
 export default function RootLayout({
