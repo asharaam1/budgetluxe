@@ -49,7 +49,7 @@ export default function AdminDashboard() {
       }));
       
       // Users count
-      const usersSnapshot = await getDocs(collection(db, 'users'));
+      const usersSnapshot = await getDocs(collection(db, 'e-users'));
 
       setStats({
         totalProducts: productsSnapshot.size,

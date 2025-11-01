@@ -1,4 +1,4 @@
-// app/admin/layout.tsx
+// app/admin/layout.tsx - Debug version
 'use client';
 import { useAdmin } from '../../hooks/useAdmin';
 import { useRouter } from 'next/navigation';
@@ -9,21 +9,30 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isAdmin, loading } = useAdmin();
+  const { isAdmin, loading, debugInfo } = useAdmin();
   const router = useRouter();
 
   useEffect(() => {
     if (!loading && !isAdmin) {
+      console.log('🚫 Access denied - redirecting to home');
       router.push('/');
     }
   }, [isAdmin, loading, router]);
+
+  // Debug panel - remove after testing
+  const showDebug = process.env.NODE_ENV === 'development';
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C8A46F] mx-auto mb-4"></div>
-          <p className="text-gray-600">Checking permissions...</p>
+          <p className="text-gray-600">Checking admin permissions...</p>
+          {showDebug && debugInfo && (
+            <pre className="text-xs text-left mt-4 p-4 bg-gray-100 rounded">
+              {JSON.stringify(debugInfo, null, 2)}
+            </pre>
+          )}
         </div>
       </div>
     );
@@ -37,6 +46,16 @@ export default function AdminLayout({
             <h2 className="text-xl font-bold mb-2">Access Denied</h2>
             <p>You don't have permission to access the admin panel.</p>
           </div>
+          
+          {showDebug && debugInfo && (
+            <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4 text-left">
+              <h3 className="font-bold mb-2">Debug Info:</h3>
+              <pre className="text-xs whitespace-pre-wrap">
+                {JSON.stringify(debugInfo, null, 2)}
+              </pre>
+            </div>
+          )}
+          
           <button 
             onClick={() => router.push('/')}
             className="bg-[#C8A46F] hover:bg-yellow-600 text-white px-6 py-2 rounded-lg transition-colors"
@@ -68,7 +87,10 @@ export default function AdminLayout({
                 View Store
               </button>
               <button 
-                onClick={() => router.push('/auth/login')}
+                onClick={() => {
+                  // Add logout functionality here
+                  router.push('/auth/login');
+                }}
                 className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition-colors"
               >
                 Logout

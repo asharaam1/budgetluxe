@@ -53,7 +53,7 @@ const SignupPage = () => {
       );
 
       // Create user document in Firestore
-      await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(db, "e-users", user.uid), {
         uid: user.uid,
         displayName: formData.displayName,
         email: formData.email,
