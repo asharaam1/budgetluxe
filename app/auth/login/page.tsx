@@ -1,9 +1,11 @@
 // app/auth/login/page.tsx
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "../../../hooks/useAuth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/config";
 import { FiMail, FiLock, FiArrowLeft } from "react-icons/fi";
 
 const LoginPage = () => {
@@ -13,14 +15,43 @@ const LoginPage = () => {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const router = useRouter();
+
+  //Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      checkUserRoleAndRedirect(user.uid);
+    }
+  }, [user]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  const checkUserRoleAndRedirect = async (userId: string) => {
+    try {
+      const userDoc = await getDoc(doc(db, "users", userId));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        // If admin, redirect to admin panel
+        if (userData.role === "admin" || userData.role === "superadmin") {
+          router.push("/admin");
+        } else {
+          // If regular user, redirect to home
+          router.push("/");
+        }
+      } else {
+        // If no user document, redirect to home
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Error checking user role:", error);
+      router.push("/");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,7 +61,6 @@ const LoginPage = () => {
 
     try {
       await login(formData.email, formData.password);
-      router.push("/");
     } catch (err: any) {
       console.error("Login error:", err);
       setError("Invalid email or password");
