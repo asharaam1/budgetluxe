@@ -103,7 +103,7 @@ export default function CartPage() {
 
                       <div className="flex items-center gap-4">
                         <span className="text-lg font-bold text-gray-900">
-                          ₹{item.price * item.quantity}
+                          Rs.{item.price * item.quantity}
                         </span>
                         <button
                           onClick={() => removeFromCart(item.id, item.size)}
@@ -129,21 +129,21 @@ export default function CartPage() {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>₹{getCartTotal()}</span>
+                  <span>Rs.{getCartTotal()}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
-                  <span>₹{getCartTotal() > 999 ? 0 : 99}</span>
+                  <span>Rs.{getCartTotal() > 999 ? 0 : 99}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Tax</span>
-                  <span>₹{(getCartTotal() * 0.18).toFixed(2)}</span>
+                  <span>Rs.{(getCartTotal() * 0.18).toFixed(2)}</span>
                 </div>
                 <div className="border-t pt-3">
                   <div className="flex justify-between text-lg font-bold text-gray-900">
                     <span>Total</span>
                     <span>
-                      ₹
+                      Rs.
                       {(
                         getCartTotal() +
                         (getCartTotal() > 999 ? 0 : 99) +
@@ -163,7 +163,7 @@ export default function CartPage() {
 
               {getCartTotal() < 999 && (
                 <p className="text-sm text-center text-gray-600 mt-3">
-                  Add ₹{999 - getCartTotal()} more for free shipping!
+                  Add Rs.{999 - getCartTotal()} more for free shipping!
                 </p>
               )}
             </div>

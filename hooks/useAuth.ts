@@ -1,8 +1,9 @@
-// hooks/useAuth.ts
+// hooks/useAuth.ts - Improved version
 "use client";
 import { useState, useEffect } from "react";
 import {
   User,
+  UserCredential,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
@@ -13,7 +14,7 @@ import { auth } from "../lib/config";
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<UserCredential>;
   signUp: (
     email: string,
     password: string,
@@ -29,6 +30,7 @@ export function useAuth(): AuthContextType {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log("🔄 Auth state changed:", user?.email);
       setUser(user);
       setLoading(false);
     });
@@ -37,7 +39,14 @@ export function useAuth(): AuthContextType {
   }, []);
 
   const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+    console.log("🔐 Attempting login:", email);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    console.log("✅ Login successful:", userCredential.user.email);
+    return userCredential;
   };
 
   const signUp = async (
@@ -51,7 +60,6 @@ export function useAuth(): AuthContextType {
       password
     );
 
-    // Update profile with display name
     if (auth.currentUser) {
       await updateProfile(auth.currentUser, {
         displayName: displayName,

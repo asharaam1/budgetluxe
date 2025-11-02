@@ -101,17 +101,17 @@ export default function ProductCard({ product }: ProductCardProps) {
               {product.name}
             </h3>
             <span className="text-lg font-bold text-gray-900 ml-2">
-              ₹{product.price}
+              Rs.{product.price}
             </span>
           </div>
 
           {product.originalPrice && product.originalPrice > product.price && (
             <div className="flex items-center gap-2 mb-2">
               <span className="text-sm text-gray-500 line-through">
-                ₹{product.originalPrice}
+                Rs.{product.originalPrice}
               </span>
               <span className="text-sm text-red-600 font-medium">
-                Save ₹{product.originalPrice - product.price}
+                Save Rs.{product.originalPrice - product.price}
               </span>
             </div>
           )}

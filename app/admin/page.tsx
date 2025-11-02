@@ -162,7 +162,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-              <p className="text-2xl font-bold text-gray-900">₹{stats.totalRevenue}</p>
+              <p className="text-2xl font-bold text-gray-900">Rs.{stats.totalRevenue}</p>
             </div>
             <div className="bg-orange-100 p-3 rounded-lg">
               <FiDollarSign className="w-6 h-6 text-orange-600" />
@@ -218,7 +218,7 @@ export default function AdminDashboard() {
                   />
                   <div>
                     <h3 className="font-medium text-gray-900">{product.name}</h3>
-                    <p className="text-sm text-gray-600">₹{product.price} • {product.category}</p>
+                    <p className="text-sm text-gray-600">Rs.{product.price} • {product.category}</p>
                   </div>
                 </div>
                 <span className={`px-2 py-1 rounded-full text-xs ${

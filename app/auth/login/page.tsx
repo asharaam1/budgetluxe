@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/config";
 import { FiMail, FiLock, FiArrowLeft } from "react-icons/fi";
@@ -34,7 +34,7 @@ const LoginPage = () => {
 
   const checkUserRoleAndRedirect = async (userId: string) => {
     try {
-      const userDoc = await getDoc(doc(db, "users", userId));
+      const userDoc = await getDoc(doc(db, "e-users", userId));
       if (userDoc.exists()) {
         const userData = userDoc.data();
         // If admin, redirect to admin panel

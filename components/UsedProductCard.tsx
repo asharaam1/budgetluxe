@@ -117,11 +117,11 @@ export default function UsedProductCard({ product }: UsedProductCardProps) {
             </h3>
             <div className="text-right">
               <span className="text-lg font-bold text-gray-900 block">
-                ₹{product.price}
+                Rs.{product.price}
               </span>
               {product.originalPrice && (
                 <span className="text-sm text-gray-500 line-through">
-                  ₹{product.originalPrice}
+                  Rs.{product.originalPrice}
                 </span>
               )}
             </div>
@@ -146,7 +146,7 @@ export default function UsedProductCard({ product }: UsedProductCardProps) {
           {savings > 0 && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-2 mb-3">
               <p className="text-xs text-green-800 font-medium">
-                You save ₹{savings} compared to new
+                You save Rs.{savings} compared to new
               </p>
             </div>
           )}

@@ -295,7 +295,7 @@ function FiltersSection({
       {/* Price Range Filter */}
       <div>
         <h3 className="font-semibold text-gray-900 mb-3">
-          Price: ₹{filters.priceRange[0]} - ₹{filters.priceRange[1]}
+          Price: Rs.{filters.priceRange[0]} - Rs.{filters.priceRange[1]}
         </h3>
         <div className="space-y-2">
           <input
@@ -313,8 +313,8 @@ function FiltersSection({
             className="w-full"
           />
           <div className="flex justify-between text-sm text-gray-600">
-            <span>₹0</span>
-            <span>₹5000</span>
+            <span>Rs.0</span>
+            <span>Rs.5000</span>
           </div>
         </div>
       </div>

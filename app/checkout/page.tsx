@@ -339,7 +339,7 @@ export default function CheckoutPage() {
                     disabled={loading}
                     className="w-full bg-gray-900 hover:bg-gray-800 disabled:bg-gray-400 text-white py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
                   >
-                    {loading ? "Processing..." : `Pay ₹${total.toFixed(2)}`}
+                    {loading ? "Processing..." : `Pay Rs.${total.toFixed(2)}`}
                   </button>
                 </div>
               </div>
@@ -362,7 +362,7 @@ export default function CheckoutPage() {
                     <span className="text-gray-600">
                       {item.name} ({item.size}) × {item.quantity}
                     </span>
-                    <span>₹{item.price * item.quantity}</span>
+                    <span>Rs.{item.price * item.quantity}</span>
                   </div>
                 ))}
               </div>
@@ -370,20 +370,20 @@ export default function CheckoutPage() {
               <div className="space-y-2 border-t pt-4">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>₹{subtotal.toFixed(2)}</span>
+                  <span>Rs.{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
-                  <span>{shipping === 0 ? "Free" : `₹${shipping}`}</span>
+                  <span>{shipping === 0 ? "Free" : `Rs.${shipping}`}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Tax</span>
-                  <span>₹{tax.toFixed(2)}</span>
+                  <span>Rs.{tax.toFixed(2)}</span>
                 </div>
                 <div className="border-t pt-2">
                   <div className="flex justify-between text-lg font-bold text-gray-900">
                     <span>Total</span>
-                    <span>₹{total.toFixed(2)}</span>
+                    <span>Rs.{total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
