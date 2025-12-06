@@ -149,25 +149,25 @@ export default function Header() {
         {/* Categories Navigation */}
         <nav className="hidden md:flex justify-center space-x-8 py-3 border-t border-gray-700">
           <Link
-            href="/products?category=men"
+            href="/products"
             className="hover:text-[#C8A46F] transition font-medium"
           >
             Men's Fashion
           </Link>
           <Link
-            href="/products?category=women"
+            href="/products"
             className="hover:text-[#C8A46F] transition font-medium"
           >
             Women's Wear
           </Link>
           <Link
-            href="/products?category=kids"
+            href="/products"
             className="hover:text-[#C8A46F] transition font-medium"
           >
             Kids Collection
           </Link>
           <Link
-            href="/products?category=used"
+            href="/products"
             className="hover:text-[#C8A46F] transition font-medium text-green-400"
           >
             Used Clothes

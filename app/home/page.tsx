@@ -38,18 +38,17 @@ export default function HomePage() {
   const fetchFeaturedProducts = async () => {
     try {
       const productsRef = collection(db, "products");
-      const q = query(
-        productsRef, 
-        where("status", "==", "active"),
-        limit(8)
-      );
-      
+      const q = query(productsRef, where("status", "==", "active"), limit(8));
+
       const querySnapshot = await getDocs(q);
-      const productsData: Product[] = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      } as Product));
-      
+      const productsData: Product[] = querySnapshot.docs.map(
+        (doc) =>
+          ({
+            id: doc.id,
+            ...doc.data(),
+          } as Product)
+      );
+
       setFeaturedProducts(productsData);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -67,28 +66,28 @@ export default function HomePage() {
       icon: "👔",
       count: "200+ Products",
       color: "from-blue-500 to-cyan-500",
-      href: "/products?category=men"
+      href: "/products?category=men",
     },
     {
       name: "Women's Wear",
-      icon: "👗", 
+      icon: "👗",
       count: "350+ Products",
       color: "from-pink-500 to-rose-500",
-      href: "/products?category=women"
+      href: "/products?category=women",
     },
     {
       name: "Kids Collection",
       icon: "👶",
       count: "150+ Products",
       color: "from-green-500 to-emerald-500",
-      href: "/products?category=kids"
+      href: "/products?category=kids",
     },
     {
       name: "Used Clothes",
       icon: "🔄",
-      count: "100+ Products", 
+      count: "100+ Products",
       color: "from-purple-500 to-indigo-500",
-      href: "/products?category=used"
+      href: "/products?category=used",
     },
   ];
 
@@ -106,7 +105,7 @@ export default function HomePage() {
     },
     {
       icon: <FiHeadphones className="text-2xl" />,
-      title: "Style Support", 
+      title: "Style Support",
       desc: "Fashion advice 24/7",
     },
     {
@@ -133,30 +132,30 @@ export default function HomePage() {
       status: "active",
       rating: 4.5,
       reviewCount: 128,
-      createdAt: new Date()
+      createdAt: new Date(),
     },
     {
       id: "2",
-      name: "Designer Summer Dresses", 
+      name: "Designer Summer Dresses",
       description: "Beautiful summer dresses",
       price: 2000,
       originalPrice: 3500,
       images: ["/products/women-dress.png"],
       category: "women",
       brand: "Fashion Co.",
-      condition: "new", 
+      condition: "new",
       sizes: { S: 4, M: 7, L: 5 },
       tags: ["dress", "summer"],
       status: "active",
       rating: 4.8,
       reviewCount: 89,
-      createdAt: new Date()
+      createdAt: new Date(),
     },
     {
       id: "3",
       name: "Casual Denim Jeans",
       description: "Comfortable denim jeans",
-      price: 1200, 
+      price: 1200,
       originalPrice: 1800,
       images: ["/products/jeans.png"],
       category: "men",
@@ -167,14 +166,14 @@ export default function HomePage() {
       status: "active",
       rating: 4.3,
       reviewCount: 256,
-      createdAt: new Date()
+      createdAt: new Date(),
     },
     {
       id: "4",
       name: "Elegant Kurti Set",
       description: "Traditional kurti set",
       price: 4000,
-      originalPrice: 5250, 
+      originalPrice: 5250,
       images: ["/products/kurti-set.png"],
       category: "women",
       brand: "Ethnic Wear",
@@ -184,7 +183,7 @@ export default function HomePage() {
       status: "active",
       rating: 4.7,
       reviewCount: 167,
-      createdAt: new Date()
+      createdAt: new Date(),
     },
   ];
 
@@ -237,7 +236,7 @@ export default function HomePage() {
               </motion.div>
 
               <motion.h1
-                className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
+                className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
@@ -279,14 +278,18 @@ export default function HomePage() {
 
               {/* Stats */}
               <motion.div
-                className="flex gap-8 mt-12"
+                className="flex gap-4 md:gap-8 mt-8 md:mt-12 flex-wrap"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1, duration: 0.8 }}
               >
-                <div>
-                  <div className="text-2xl font-bold text-gray-900">5000+</div>
-                  <div className="text-gray-600">Happy Customers</div>
+                <div className="text-center">
+                  <div className="text-xl md:text-2xl font-bold text-gray-900">
+                    5000+
+                  </div>
+                  <div className="text-sm md:text-base text-gray-600">
+                    Customers
+                  </div>
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-gray-900">1000+</div>
@@ -306,34 +309,18 @@ export default function HomePage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              <div className="relative h-96 lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl">
-                {[
-                  {
-                    src: "/products/men-collection.png",
-                    alt: "Men's Collection",
-                  },
-                  {
-                    src: "/products/women-collection.png", 
-                    alt: "Women's Collection",
-                  },
-                  {
-                    src: "/products/kids-collection.png",
-                    alt: "Kids Collection",
-                  },
-                ].map((image, index) => (
-                  <motion.img
-                    key={index}
-                    src={image.src}
-                    alt={image.alt}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{
-                      opacity: currentSlide === index ? 1 : 0,
-                      scale: currentSlide === index ? 1 : 1.1,
-                    }}
-                    transition={{ duration: 0.8 }}
-                  />
-                ))}
+              <div className="relative w-full aspect-4/3 rounded-3xl overflow-hidden shadow-2xl bg-gray-200">
+                <img
+                  src={
+                    [
+                      "https://jadeblue.com/cdn/shop/articles/mens_summer_wear.jpg?v=1714380887&width=1100",
+                      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1000&h=600&fit=crop",
+                      "https://images.unsplash.com/photo-1519457431-44ccd64a579b?w=1000&h=600&fit=crop",
+                    ][currentSlide]
+                  }
+                  alt="Fashion Collection"
+                  className="w-full h-full object-cover"
+                />
 
                 {/* Slide Indicators */}
                 <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
@@ -465,10 +452,13 @@ export default function HomePage() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[...Array(4)].map((_, index) => (
-                <div key={index} className="animate-pulse">
-                  <div className="bg-gray-200 h-60 rounded-2xl mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div
+                  key={index}
+                  className="animate-pulse bg-gray-200 rounded-2xl p-4"
+                >
+                  <div className="bg-gray-300 h-60 rounded-2xl mb-4"></div>
+                  <div className="h-4 bg-gray-300 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-300 rounded w-3/4"></div>
                 </div>
               ))}
             </div>
@@ -497,11 +487,17 @@ export default function HomePage() {
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.3 }}
                       />
-                      {product.originalPrice && product.originalPrice > product.price && (
-                        <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                          {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
-                        </div>
-                      )}
+                      {product.originalPrice &&
+                        product.originalPrice > product.price && (
+                          <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                            {Math.round(
+                              ((product.originalPrice - product.price) /
+                                product.originalPrice) *
+                                100
+                            )}
+                            % OFF
+                          </div>
+                        )}
                       <div className="absolute top-4 left-4 bg-black text-white px-3 py-1 rounded-full text-sm">
                         {product.category}
                       </div>
@@ -525,7 +521,9 @@ export default function HomePage() {
                           <FiStar
                             key={i}
                             className={
-                              i < Math.floor(product.rating) ? "fill-current" : ""
+                              i < Math.floor(product.rating)
+                                ? "fill-current"
+                                : ""
                             }
                           />
                         ))}
@@ -541,11 +539,12 @@ export default function HomePage() {
                         <span className="text-2xl font-bold text-gray-900">
                           Rs.{product.price}
                         </span>
-                        {product.originalPrice && product.originalPrice > product.price && (
-                          <span className="text-gray-500 line-through text-sm">
-                            Rs.{product.originalPrice}
-                          </span>
-                        )}
+                        {product.originalPrice &&
+                          product.originalPrice > product.price && (
+                            <span className="text-gray-500 line-through text-sm">
+                              Rs.{product.originalPrice}
+                            </span>
+                          )}
                       </div>
                       <motion.button
                         onClick={() => handleAddToCart(product)}
