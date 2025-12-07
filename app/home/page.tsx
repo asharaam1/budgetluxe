@@ -214,7 +214,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-cream-50">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-amber-50 via-cream-50 to-orange-50 py-20 overflow-hidden">
+      <section className="relative bg-linear-to-br from-amber-50 via-cream-50 to-orange-50 py-20 overflow-hidden">
         <div className="absolute inset-0 bg-black/5"></div>
         <div className="container mx-auto px-4 relative">
           <div className="flex flex-col lg:flex-row items-center justify-between">
@@ -405,7 +405,7 @@ export default function HomePage() {
               >
                 <Link href={category.href}>
                   <div
-                    className={`bg-gradient-to-br ${category.color} rounded-2xl p-8 text-white text-center relative overflow-hidden h-48 flex flex-col justify-center items-center`}
+                    className={`bg-linear-to-br ${category.color} rounded-2xl p-8 text-white text-center relative overflow-hidden h-48 flex flex-col justify-center items-center`}
                   >
                     <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
                       {category.icon}
@@ -564,7 +564,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-amber-500 to-orange-500 text-white">
+      <section className="py-20 bg-linear-to-r from-amber-500 to-orange-500 text-white">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
