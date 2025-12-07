@@ -3,6 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 // import { cloudinary } from '../../../lib/cloudinary';
 import { v2 as cloudinary } from "cloudinary";
 
+export const runtime = "nodejs"; //force Node.js runtime
+
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
   api_key: process.env.CLOUDINARY_API_KEY!,
